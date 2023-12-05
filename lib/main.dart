@@ -4,9 +4,10 @@ void main() {
   runApp(const MainApp());
 }
 
-// main class
+// main app
 class MainApp extends StatefulWidget {
-  const MainApp({Key? key}) : super(key: key);
+  const MainApp({super.key});
+
   @override
   State<MainApp> createState() => _MainAppState();
 }
@@ -15,32 +16,30 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter-Tutorial",
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        title: "Flutter-Tutorial",
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity),
+        home: const MyHomePage());
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Hello, my bro's"),
       ),
-      home: const MyHomePage(),
+      body: const TestInputWidget(),
     );
   }
 }
 
-// to display home page
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Hello, Flutter!"),
-        ),
-        body: const TestInputWidget());
-  }
-}
-
-// This is for get the input
 class TestInputWidget extends StatefulWidget {
-  const TestInputWidget({Key? key}) : super(key: key);
+  const TestInputWidget({super.key});
 
   @override
   State<TestInputWidget> createState() => _TestInputWidgetState();
@@ -57,7 +56,7 @@ class _TestInputWidgetState extends State<TestInputWidget> {
   }
 
   void changeText(text) {
-    if (text == "Hello World!") {
+    if (text == "hello world") {
       controller.clear();
       text = "";
     }
@@ -68,14 +67,17 @@ class _TestInputWidgetState extends State<TestInputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      TextField(
-        controller: controller,
-        decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.message), labelText: "Type a message"),
-        onChanged: (text) => changeText(text),
-      ),
-      Text(text)
-    ]);
+    return Column(
+      children: <Widget>[
+        TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.message),
+            labelText: "Type a msg here",
+          ),
+          onChanged: (text) => changeText(text),
+        ),
+      ],
+    );
   }
 }
