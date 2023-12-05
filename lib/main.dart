@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,42 +26,16 @@ class _MainAppState extends State<MainApp> {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Hello, my bro's"),
-      ),
-      body: const TestInputWidget(),
-    );
-  }
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class TestInputWidget extends StatefulWidget {
-  const TestInputWidget({super.key});
-
-  @override
-  State<TestInputWidget> createState() => _TestInputWidgetState();
-}
-
-class _TestInputWidgetState extends State<TestInputWidget> {
-  final controller = TextEditingController();
+class _MyHomePageState extends State<MyHomePage> {
   String text = "";
 
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-  }
-
-  void changeText(text) {
-    if (text == "hello world") {
-      controller.clear();
-      text = "";
-    }
+  void changeText(String text) {
     setState(() {
       this.text = text;
     });
@@ -67,17 +43,49 @@ class _TestInputWidgetState extends State<TestInputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TextField(
-          controller: controller,
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.message),
-            labelText: "Type a msg here",
-          ),
-          onChanged: (text) => changeText(text),
-        ),
-      ],
+    return Scaffold(
+      appBar: AppBar(title: const Text("Hello, world")),
+      body: Column(
+        children: <Widget>[const TestInputWidget(changeText(text)), Text(text)],
+      ),
+    );
+  }
+}
+
+class TestInputWidget extends StatefulWidget {
+  const TestInputWidget(void changeText, {super.key});
+  final Function(String) callback;
+
+  TestInputWidget([this.callback]);
+
+  @override
+  State<TestInputWidget> createState() => _TestInputWidgetState();
+}
+
+class _TestInputWidgetState extends State<TestInputWidget> {
+  final controller = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
+  void click() {}
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.message),
+          labelText: "Type a msg here",
+          suffixIcon: IconButton(
+            onPressed: click,
+            icon: Icon(Icons.send),
+            splashColor: Colors.grey,
+            tooltip: "post message",
+          )),
     );
   }
 }
